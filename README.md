@@ -19,3 +19,13 @@ transformers.__version__
 ```
 from transformers import GPT2Model
 ```
+- After accessing the model load the model
+```
+model_name = "gpt2"
+model = GPT2Model.from_pretrained(model_name)
+```
+- The first step is to pass the text and then tokenize it. In order to tokenize the text, use GPT2Tokenizer for tokenization
+```
+from transformers import GPT2Tokenizer
+tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+```
