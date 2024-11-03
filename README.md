@@ -143,4 +143,6 @@ class MultiHeadSelfAttention:
 
 - After getting context vector from each head they are concatenated
 ```
+torch.cat((context_vector_11,context_vector_12,context_vector_13,context_vector_14,context_vector_15,context_vector_16,context_vector_17,context_vector_18,context_vector_19,context_vector_110,context_vector_111,context_vector_112),dim=-1)
 ```
+where context_vector11 denotes the context vector of first head of the first layer.
