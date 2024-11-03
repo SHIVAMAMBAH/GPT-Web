@@ -137,3 +137,5 @@ class MultiHeadSelfAttention:
             "context_vector": context_vector
         }
 ```
+- Here is the formulas for the Q, K, V, attention scores, attention weights and context vector
+![MHSA (1)](https://github.com/user-attachments/assets/fda5a066-397d-4728-8cd1-7f8e7f573780)
