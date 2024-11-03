@@ -59,4 +59,8 @@ def get_embeddings_and_positional_encodings(input_text):
     positional_encodings = model.wpe.weight[:embeddings.size(1)]  # Positional encodings
 
     return embeddings, positional_encodings
+
+# inside update_output function
+embeddings, positional_encodings = get_embeddings_and_positional_encodings(input_text)
+sum_emb_pos = embeddings + positional_encodings
 ```
