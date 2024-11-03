@@ -46,3 +46,4 @@ inputs = tokenizer(input_text, return_tensors ='pt', add_special_tokens = False)
 tokens = tokenizer.tokenize(input_text)
 token_ids = inputs['input_ids'][0].tolist()
 ```
+- Tokens and their IDs are stored in the [file]().
