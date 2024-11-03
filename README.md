@@ -24,7 +24,11 @@ from transformers import GPT2Model
 model_name = "gpt2"
 model = GPT2Model.from_pretrained(model_name)
 ```
-- The first step is to pass the text and then tokenize it. In order to tokenize the text, use GPT2Tokenizer for tokenization
+- The number of dimension in the model is 768 :
+```
+d_model = model.config.n_embd
+```
+- The first step is to pass the text and then tokenize it. In order to tokenize the text, load GPT2Tokenizer for tokenization
 ```
 from transformers import GPT2Tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
