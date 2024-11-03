@@ -28,8 +28,16 @@ model = GPT2Model.from_pretrained(model_name)
 ```
 d_model = model.config.n_embd
 ```
-- The first step is to pass the text and then tokenize it. In order to tokenize the text, load GPT2Tokenizer for tokenization
+- Also load GPT2Tokenizer for tokenization
 ```
 from transformers import GPT2Tokenizer
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+```
+- The first step is to pass the text and then tokenize it.
+- The second step is to convert them into IDs
+```
+#Inside the update_output function
+inputs = tokenizer(input_text, return_tensors ='pt', add_special_tokens = False)
+tokens = tokenizer.tokenize(input_text)
+token_ids = inputs['input_ids'][0].tolist()
 ```
