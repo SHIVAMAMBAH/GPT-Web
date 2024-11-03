@@ -72,4 +72,68 @@ sum_emb_pos = embeddings + positional_encodings
 - In each head, we calculate the *Query (Q)*, *Key (K)* and *Value (V)*, *attention_scores* and *attention_weights* and then *context_vector*
 - The following class calculates these values of a particular head of a particular layera and returns those values.
 ```
+class MultiHeadSelfAttention:
+    def __init__(self,layer_number:int ,head_number: int):
+        self.model = GPT2Model.from_pretrained("gpt2")  # Using GPT-2 small directly
+        self.head_number = head_number
+        self.layer_number = layer_number
+        
+        #validate number of layers in the model (12 layers)
+        n_layers = 12
+        if layer_number<0 or layer_number>=n_layers:
+            raise ValueError(f"Layer number must be between 0 and {n_layers-1}")
+        
+        # Validate head number (12 in each MHSA)
+        n_heads = self.model.config.n_head
+        if head_number < 0 or head_number >= n_heads:
+            raise ValueError(f"Head number must be between 0 and {n_heads - 1}")
+
+    def get_attention_values(self, embeddings: torch.Tensor):
+        # Access the specified layer of the model
+        layer = self.model.h[self.layer_number]
+        mhsa = layer.attn
+
+        # Get the combined Q, K, V weight matrix and split them
+        c_attn_weight = mhsa.c_attn.weight  # Shape: (3 * d_model, d_model)
+        d_model = self.model.config.n_embd
+        n_heads = self.model.config.n_head
+        head_dim = d_model // n_heads
+
+        # Reshape to split into Q, K, and V matrices for all heads
+        qkv_weight = c_attn_weight.view(3, n_heads, head_dim, d_model)  # Shape: (3, n_heads, head_dim, d_model)
+
+        #   Extract weights for the specified attention head
+        q_weight = qkv_weight[0, self.head_number]  # Q weight for specified head
+        k_weight = qkv_weight[1, self.head_number]  # K weight for specified head
+        v_weight = qkv_weight[2, self.head_number]  # V weight for specified head
+
+        # Project embeddings into Q, K, and V matrices
+        Q = torch.matmul(embeddings, q_weight.T)  # Shape: (batch_size, seq_length, head_dim)
+        K = torch.matmul(embeddings, k_weight.T)
+        V = torch.matmul(embeddings, v_weight.T)
+
+        # Ensure Q and K have compatible shapes for matrix multiplication
+        Q = Q.unsqueeze(1)  # Add an extra dimension if needed
+        K = K.unsqueeze(1)
+
+        # Calculate attention scores (dot product of Q and K)
+        attention_scores = torch.matmul(Q, K.mT) / (head_dim ** 0.5)  # Use mT for transposition
+
+        # Apply softmax to get attention weights
+        attention_weights = torch.softmax(attention_scores, dim=-1)
+
+        # Calculate the context vector (weighted sum of V)
+        context_vector = torch.matmul(attention_weights, V)
+
+        return {
+            "q-weights": q_weight,
+            "k-weights": k_weight,
+            "v-weights": v_weight,
+            "Q": Q,
+            "K": K,
+            "V": V,
+            "attention_scores": attention_scores,
+            "attention_weights": attention_weights,
+            "context_vector": context_vector
+        }
 ```
