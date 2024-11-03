@@ -3,3 +3,6 @@
 - To know the working of the GPT model, visit the repository [GPT](https://github.com/SHIVAMAMBAH/GPT-Model)
 - To see the code [click here](https://github.com/SHIVAMAMBAH/GPT-Web/blob/main/model.py)
 
+##
+- We have implemented the **GPT-2 Small Model with 117M** parameters
+- 
