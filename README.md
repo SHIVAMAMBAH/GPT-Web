@@ -5,6 +5,11 @@
 
 ##
 - We have implemented the **GPT-2 Small Model with 117M** parameters
+- We have used the dash librarby of the python for web application
+- To install the dash librarby, open command prompt and type :
+```
+pip install dash[html,core,bootstrap]
+```
 - We have used the **transformers library** to access the parameters of th Model.
 - To install the transformers library, open command prompt and type : 
 ```
