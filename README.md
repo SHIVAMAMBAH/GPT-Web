@@ -49,5 +49,14 @@ token_ids = inputs['input_ids'][0].tolist()
 - Tokens and their IDs are stored in the [file](https://github.com/SHIVAMAMBAH/GPT-Web/blob/main/vocab.json).
 - The third step is to convert these IDs into their corresponding embedding matrix and add positional encodings.
 ```
+def get_embeddings_and_positional_encodings(input_text):
+    inputs = tokenizer(input_text, return_tensors='pt')
+    with torch.no_grad():
+        outputs = model(**inputs)
+    
+    # Extract token embeddings and positional encodings
+    embeddings = outputs.last_hidden_state  # Token embeddings
+    positional_encodings = model.wpe.weight[:embeddings.size(1)]  # Positional encodings
 
+    return embeddings, positional_encodings
 ```
