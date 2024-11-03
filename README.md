@@ -47,3 +47,7 @@ tokens = tokenizer.tokenize(input_text)
 token_ids = inputs['input_ids'][0].tolist()
 ```
 - Tokens and their IDs are stored in the [file](https://github.com/SHIVAMAMBAH/GPT-Web/blob/main/vocab.json).
+- The third step is to convert these IDs into their corresponding embedding matrix and add positional encodings.
+```
+
+```
