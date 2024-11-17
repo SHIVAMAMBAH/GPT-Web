@@ -19,7 +19,7 @@ def get_embeddings_and_positional_encodings(input_text):
     inputs = tokenizer(input_text, return_tensors='pt')
     with torch.no_grad():
         outputs = model(**inputs)
-    
+
     # Extract token embeddings and positional encodings
     embeddings = outputs.last_hidden_state  # Token embeddings
     positional_encodings = model.wpe.weight[:embeddings.size(1)]  # Positional encodings
@@ -28,16 +28,16 @@ def get_embeddings_and_positional_encodings(input_text):
 
 
 class MultiHeadSelfAttention:
-    def __init__(self,layer_number:int, head_number: int):
+    def __init__(self,layer_number: int, head_number: int):
         self.model = GPT2Model.from_pretrained("gpt2")  # Using GPT-2 small directly
         self.head_number = head_number
         self.layer_number = layer_number
-        
-        #validate number of layers in the model (12 layers)
+
+        # validate number of layers in the model (12 layers)
         n_layers = 12
         if layer_number<0 or layer_number>=n_layers:
             raise ValueError(f"Layer number must be between 0 and {n_layers-1}")
-        
+
         # Validate head number (12 in each MHSA)
         n_heads = self.model.config.n_head
         if head_number < 0 or head_number >= n_heads:
@@ -57,7 +57,7 @@ class MultiHeadSelfAttention:
         # Reshape to split into Q, K, and V matrices for all heads
         qkv_weight = c_attn_weight.view(3, n_heads, head_dim, d_model)  # Shape: (3, n_heads, head_dim, d_model)
 
-        #   Extract weights for the specified attention head
+        #  Extract weights for the specified attention head
         q_weight = qkv_weight[0, self.head_number]  # Q weight for specified head
         k_weight = qkv_weight[1, self.head_number]  # K weight for specified head
         v_weight = qkv_weight[2, self.head_number]  # V weight for specified head
@@ -91,7 +91,7 @@ class MultiHeadSelfAttention:
             "attention_weights": attention_weights,
             "context_vector": context_vector
         }
-    
+
 layer_1_head_1 = MultiHeadSelfAttention(0, 0)
 layer_1_head_2 = MultiHeadSelfAttention(0, 1)
 layer_1_head_3 = MultiHeadSelfAttention(0, 2)
@@ -122,11 +122,11 @@ layer_1_head_12 = MultiHeadSelfAttention(0, 11)
 app = Dash(__name__)
 
 app.layout = html.Div([
-    
+
     html.Div([
       html.H1("GPT-2 Small with 117M parameters and 12 attention heads.")  
     ]),
-    
+
     # Input Text Area
     dcc.Textarea(
         id='input-text',
@@ -203,22 +203,22 @@ app.layout = html.Div([
             }
         )
     ]),
-    
+
     html.Div([
       html.H1("GPT-2 Encoder"),
       html.H4("There are 12 layers of Encoder in GPT-2 small with 117 parameters. Each Layer consists of two parts : "),
       html.H4("(i) Multi-Head Self-attention Mechanism (MHSA)"),
       html.H4("(ii) Feed-Forward Neural Network (FFNN)"),
       html.H4("There are 12 heads in the MHSA")
-        
+
     ],style = {'text-align': 'center'}),
-    
+
     html.Div([
       html.H1("Multi-Head Self-Attention Mechanism"),
       html.H4("Below is the calculation of all heads of the first encoder layer of the first.")
-        
+  
     ],style = {'text-align': 'center'}),
-    
+
     html.Div([
     html.Div([
             html.H3("first_layer_first_head", style={'textAlign': 'center'}),
@@ -245,7 +245,7 @@ app.layout = html.Div([
                 }
                 )
             ],style={'width': '100%', 'display': 'inline-block'}),
-    
+
     html.Div([
             html.H3("first_layer_third_head", style={'textAlign': 'center'}),
             html.Div(
@@ -367,7 +367,7 @@ app.layout = html.Div([
                 )
             ],style={'width': '100%', 'display': 'inline-block'}),
     ],style = {'width': '100%', 'display': 'inline-block','height':'500px','overflowY':'scroll','border': '2px solid #000000', }),
-    
+
     html.Div([
             html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
             html.Div(
@@ -430,66 +430,65 @@ def update_output(input_text):
     # Retrieve embeddings and positional encodings
     embeddings, positional_encodings = get_embeddings_and_positional_encodings(input_text)
     sum_emb_pos = embeddings+positional_encodings
-    
+
     id_output = []
     embedding_output = []
     positional_output = []
     sum_output = []
-    
+
     last_index_context_vector = list(layer_1_head_1.get_attention_values(sum_emb_pos).keys())[-1]
-    
+
     first_layer_first_head = layer_1_head_1.get_attention_values(sum_emb_pos)
     context_vector_11 =  first_layer_first_head[last_index_context_vector]
     first_layer_first_head_output = []
-    
+
     first_layer_second_head = layer_1_head_2.get_attention_values(sum_emb_pos)
     context_vector_12 =  first_layer_second_head[last_index_context_vector]
     first_layer_second_head_output = []
-    
+
     first_layer_third_head = layer_1_head_3.get_attention_values(sum_emb_pos)
     context_vector_13 =  first_layer_third_head[last_index_context_vector]
     first_layer_third_head_output = []
-    
+
     first_layer_fourth_head = layer_1_head_4.get_attention_values(sum_emb_pos)
     context_vector_14 =  first_layer_fourth_head[last_index_context_vector]
     first_layer_fourth_head_output = []
-    
+
     first_layer_fifth_head = layer_1_head_5.get_attention_values(sum_emb_pos)
     context_vector_15 =  first_layer_fifth_head[last_index_context_vector]
     first_layer_fifth_head_output = []
-    
+
     first_layer_sixth_head = layer_1_head_6.get_attention_values(sum_emb_pos)
     context_vector_16 =  first_layer_sixth_head[last_index_context_vector]
     first_layer_sixth_head_output = []
-    
+
     first_layer_seventh_head = layer_1_head_7.get_attention_values(sum_emb_pos)
     context_vector_17 =  first_layer_seventh_head[last_index_context_vector]
     first_layer_seventh_head_output = []
-    
+
     first_layer_eighth_head = layer_1_head_8.get_attention_values(sum_emb_pos)
     context_vector_18 =  first_layer_eighth_head[last_index_context_vector]
     first_layer_eighth_head_output = []
-    
+
     first_layer_ninth_head = layer_1_head_9.get_attention_values(sum_emb_pos)
     context_vector_19 =  first_layer_ninth_head[last_index_context_vector]
     first_layer_ninth_head_output = []
-    
+
     first_layer_tenth_head = layer_1_head_10.get_attention_values(sum_emb_pos)
     context_vector_110 =  first_layer_tenth_head[last_index_context_vector]
     first_layer_tenth_head_output = []
-    
+
     first_layer_eleven_head = layer_1_head_11.get_attention_values(sum_emb_pos)
     context_vector_111 =  first_layer_eleven_head[last_index_context_vector]
     first_layer_eleven_head_output = []
-    
+
     first_layer_twelve_head = layer_1_head_12.get_attention_values(sum_emb_pos)
     context_vector_112 =  first_layer_twelve_head[last_index_context_vector]
     first_layer_twelve_head_output = []
-    
-    
+
     final_context_vector_first_layer = torch.cat((context_vector_11, context_vector_12, context_vector_13, context_vector_14, context_vector_15, context_vector_16, context_vector_17, context_vector_18, context_vector_19, context_vector_110, context_vector_111, context_vector_112), dim=-1)
     final_context_vector_first_layer_output = []
-    
+
     # context_vector_21 = layer_2_head_1.get_attention_values(sum_emb_pos)[last_index_context_vector]
     # context_vector_22 = layer_2_head_2.get_attention_values(sum_emb_pos)[last_index_context_vector]
     # context_vector_23 = layer_2_head_3.get_attention_values(sum_emb_pos)[last_index_context_vector]
@@ -502,10 +501,10 @@ def update_output(input_text):
     # context_vector_210 = layer_2_head_10.get_attention_values(sum_emb_pos)[last_index_context_vector]
     # context_vector_211 = layer_2_head_11.get_attention_values(sum_emb_pos)[last_index_context_vector]
     # context_vector_212 = layer_2_head_12.get_attention_values(sum_emb_pos)[last_index_context_vector]
-    
+
     # final_context_vector_second_layer = torch.cat((context_vector_21,context_vector_22,context_vector_23,context_vector_24,context_vector_25,context_vector_26,context_vector_27,context_vector_28,context_vector_29,context_vector_210,context_vector_211,context_vector_212),dim=-1)
     # final_context_vector_second_layer_output = []
-    
+
     # Display the token IDs, embeddings, positional encodings, and their sum
     for idx, (token, token_id) in enumerate(zip(tokens, token_ids)):
         id_output.append(f"{token} -> {token_id}")
@@ -513,7 +512,7 @@ def update_output(input_text):
         positional_output.append(f"{token}{embeddings[0, idx].detach().numpy().shape} = {positional_encodings[idx].detach().numpy()}")
         sum_result = embeddings[0, idx] + positional_encodings[idx]
         sum_output.append(f"{token}{embeddings[0, idx].detach().numpy().shape} = {sum_result.detach().numpy()}")
-        
+
     first_layer_first_head_output.append(first_layer_first_head)
     first_layer_second_head_output.append(first_layer_second_head)
     first_layer_third_head_output.append(first_layer_third_head)
@@ -526,11 +525,11 @@ def update_output(input_text):
     first_layer_tenth_head_output.append(first_layer_tenth_head)
     first_layer_eleven_head_output.append(first_layer_eleven_head)
     first_layer_twelve_head_output.append(first_layer_twelve_head)
-    
+
     final_context_vector_first_layer_output.append(f"{final_context_vector_first_layer.shape}{str(final_context_vector_first_layer.detach().numpy())}")
-    
+
     # final_context_vector_second_layer_output.append(f"{final_context_vector_second_layer.shape}{str(final_context_vector_second_layer.detach().numpy())}")
-    
+
     return '\n'.join(id_output), '\n'.join(embedding_output), '\n'.join(positional_output), '\n'.join(sum_output), '\n'.join(str(item) for item in first_layer_first_head_output), '\n'.join(str(item) for item in first_layer_second_head_output), '\n'.join(str(item) for item in first_layer_third_head_output), '\n'.join(str(item) for item in first_layer_fourth_head_output), '\n'.join(str(item) for item in first_layer_fifth_head_output), '\n'.join(str(item) for item in first_layer_sixth_head_output), '\n'.join(str(item) for item in first_layer_seventh_head_output), '\n'.join(str(item) for item in first_layer_eighth_head_output), '\n'.join(str(item) for item in first_layer_ninth_head_output), '\n'.join(str(item) for item in first_layer_tenth_head_output), '\n'.join(str(item) for item in first_layer_eleven_head_output), '\n'.join(str(item) for item in first_layer_twelve_head_output), '\n'.join(final_context_vector_first_layer_output)
 # ,'\n'.join(final_context_vector_second_layer_output)
 
