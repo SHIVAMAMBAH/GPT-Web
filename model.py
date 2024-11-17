@@ -211,13 +211,13 @@ app.layout = html.Div([
       html.H4("(ii) Feed-Forward Neural Network (FFNN)"),
       html.H4("There are 12 heads in the MHSA")
 
-    ],style = {'text-align': 'center'}),
+    ], style = {'text-align': 'center'}),
 
     html.Div([
       html.H1("Multi-Head Self-Attention Mechanism"),
       html.H4("Below is the calculation of all heads of the first encoder layer of the first.")
   
-    ],style = {'text-align': 'center'}),
+    ], style = {'text-align': 'center'}),
 
     html.Div([
     html.Div([
@@ -232,7 +232,7 @@ app.layout = html.Div([
                     'wordBreak': 'break-all',  # Word wrapping
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_second_head", style={'textAlign': 'center'}),
             html.Div(
@@ -244,7 +244,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
 
     html.Div([
             html.H3("first_layer_third_head", style={'textAlign': 'center'}),
@@ -257,7 +257,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_fourth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -269,7 +269,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_fifth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -281,7 +281,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_sixth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -293,7 +293,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_seventh_head", style={'textAlign': 'center'}),
             html.Div(
@@ -305,7 +305,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_eighth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -317,7 +317,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_ninth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -341,7 +341,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_eleventh_head", style={'textAlign': 'center'}),
             html.Div(
@@ -366,7 +366,7 @@ app.layout = html.Div([
                 }
                 )
             ],style={'width': '100%', 'display': 'inline-block'}),
-    ],style = {'width': '100%', 'display': 'inline-block','height':'500px','overflowY':'scroll','border': '2px solid #000000', }),
+    ], style = {'width': '100%', 'display': 'inline-block','height':'500px','overflowY':'scroll','border': '2px solid #000000', }),
 
     html.Div([
             html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
@@ -380,22 +380,23 @@ app.layout = html.Div([
                     'overflowX': 'scroll'
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
-    
+            ], style={'width': '100%', 'display': 'inline-block'}),
+
     html.Div([
             html.H3("final_context_vector_second_layer", style={'textAlign': 'center'}),
             html.Div(
                 id='final_context_vector_second_layer',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
-                    'font-family':'Courier New',
+                    'font-family': 'Courier New',
                     'overflowX': 'scroll'
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
 ])
+
 
 @app.callback(
     Output('id-output', 'children'),
@@ -416,7 +417,7 @@ app.layout = html.Div([
     Output('first_layer_twelve_head', 'children'),
     Output('final_context_vector_first_layer', 'children'),
     # Output('final_context_vector_second_layer','children'),
-    Input('input-text', 'value')    
+    Input('input-text', 'value')
 )
 def update_output(input_text):
     if not input_text:
@@ -439,11 +440,11 @@ def update_output(input_text):
     last_index_context_vector = list(layer_1_head_1.get_attention_values(sum_emb_pos).keys())[-1]
 
     first_layer_first_head = layer_1_head_1.get_attention_values(sum_emb_pos)
-    context_vector_11 =  first_layer_first_head[last_index_context_vector]
+    context_vector_11 = first_layer_first_head[last_index_context_vector]
     first_layer_first_head_output = []
 
     first_layer_second_head = layer_1_head_2.get_attention_values(sum_emb_pos)
-    context_vector_12 =  first_layer_second_head[last_index_context_vector]
+    context_vector_12 = first_layer_second_head[last_index_context_vector]
     first_layer_second_head_output = []
 
     first_layer_third_head = layer_1_head_3.get_attention_values(sum_emb_pos)
@@ -451,19 +452,19 @@ def update_output(input_text):
     first_layer_third_head_output = []
 
     first_layer_fourth_head = layer_1_head_4.get_attention_values(sum_emb_pos)
-    context_vector_14 =  first_layer_fourth_head[last_index_context_vector]
+    context_vector_14 = first_layer_fourth_head[last_index_context_vector]
     first_layer_fourth_head_output = []
 
     first_layer_fifth_head = layer_1_head_5.get_attention_values(sum_emb_pos)
-    context_vector_15 =  first_layer_fifth_head[last_index_context_vector]
+    context_vector_15 = first_layer_fifth_head[last_index_context_vector]
     first_layer_fifth_head_output = []
 
     first_layer_sixth_head = layer_1_head_6.get_attention_values(sum_emb_pos)
-    context_vector_16 =  first_layer_sixth_head[last_index_context_vector]
+    context_vector_16 = first_layer_sixth_head[last_index_context_vector]
     first_layer_sixth_head_output = []
 
     first_layer_seventh_head = layer_1_head_7.get_attention_values(sum_emb_pos)
-    context_vector_17 =  first_layer_seventh_head[last_index_context_vector]
+    context_vector_17 = first_layer_seventh_head[last_index_context_vector]
     first_layer_seventh_head_output = []
 
     first_layer_eighth_head = layer_1_head_8.get_attention_values(sum_emb_pos)
@@ -471,7 +472,7 @@ def update_output(input_text):
     first_layer_eighth_head_output = []
 
     first_layer_ninth_head = layer_1_head_9.get_attention_values(sum_emb_pos)
-    context_vector_19 =  first_layer_ninth_head[last_index_context_vector]
+    context_vector_19 = first_layer_ninth_head[last_index_context_vector]
     first_layer_ninth_head_output = []
 
     first_layer_tenth_head = layer_1_head_10.get_attention_values(sum_emb_pos)
@@ -479,11 +480,11 @@ def update_output(input_text):
     first_layer_tenth_head_output = []
 
     first_layer_eleven_head = layer_1_head_11.get_attention_values(sum_emb_pos)
-    context_vector_111 =  first_layer_eleven_head[last_index_context_vector]
+    context_vector_111 = first_layer_eleven_head[last_index_context_vector]
     first_layer_eleven_head_output = []
 
     first_layer_twelve_head = layer_1_head_12.get_attention_values(sum_emb_pos)
-    context_vector_112 =  first_layer_twelve_head[last_index_context_vector]
+    context_vector_112 = first_layer_twelve_head[last_index_context_vector]
     first_layer_twelve_head_output = []
 
     final_context_vector_first_layer = torch.cat((context_vector_11, context_vector_12, context_vector_13, context_vector_14, context_vector_15, context_vector_16, context_vector_17, context_vector_18, context_vector_19, context_vector_110, context_vector_111, context_vector_112), dim=-1)
@@ -533,5 +534,6 @@ def update_output(input_text):
     return '\n'.join(id_output), '\n'.join(embedding_output), '\n'.join(positional_output), '\n'.join(sum_output), '\n'.join(str(item) for item in first_layer_first_head_output), '\n'.join(str(item) for item in first_layer_second_head_output), '\n'.join(str(item) for item in first_layer_third_head_output), '\n'.join(str(item) for item in first_layer_fourth_head_output), '\n'.join(str(item) for item in first_layer_fifth_head_output), '\n'.join(str(item) for item in first_layer_sixth_head_output), '\n'.join(str(item) for item in first_layer_seventh_head_output), '\n'.join(str(item) for item in first_layer_eighth_head_output), '\n'.join(str(item) for item in first_layer_ninth_head_output), '\n'.join(str(item) for item in first_layer_tenth_head_output), '\n'.join(str(item) for item in first_layer_eleven_head_output), '\n'.join(str(item) for item in first_layer_twelve_head_output), '\n'.join(final_context_vector_first_layer_output)
 # ,'\n'.join(final_context_vector_second_layer_output)
 
-if __name__  == "__main__":
+
+if __name__=="__main__":
     app.run_server(debug = True)
