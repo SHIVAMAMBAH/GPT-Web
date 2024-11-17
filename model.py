@@ -448,7 +448,7 @@ def update_output(input_text):
     first_layer_second_head_output = []
 
     first_layer_third_head = layer_1_head_3.get_attention_values(sum_emb_pos)
-    context_vector_13 =  first_layer_third_head[last_index_context_vector]
+    context_vector_13 = first_layer_third_head[last_index_context_vector]
     first_layer_third_head_output = []
 
     first_layer_fourth_head = layer_1_head_4.get_attention_values(sum_emb_pos)
@@ -468,7 +468,7 @@ def update_output(input_text):
     first_layer_seventh_head_output = []
 
     first_layer_eighth_head = layer_1_head_8.get_attention_values(sum_emb_pos)
-    context_vector_18 =  first_layer_eighth_head[last_index_context_vector]
+    context_vector_18 = first_layer_eighth_head[last_index_context_vector]
     first_layer_eighth_head_output = []
 
     first_layer_ninth_head = layer_1_head_9.get_attention_values(sum_emb_pos)
@@ -476,7 +476,7 @@ def update_output(input_text):
     first_layer_ninth_head_output = []
 
     first_layer_tenth_head = layer_1_head_10.get_attention_values(sum_emb_pos)
-    context_vector_110 =  first_layer_tenth_head[last_index_context_vector]
+    context_vector_110 = first_layer_tenth_head[last_index_context_vector]
     first_layer_tenth_head_output = []
 
     first_layer_eleven_head = layer_1_head_11.get_attention_values(sum_emb_pos)
