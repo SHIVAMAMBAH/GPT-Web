@@ -1,0 +1,44 @@
+name: CI Pipeline for GPT-Web
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull request to the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Validate Vocabulary File
+      run: |
+        python -c "import json; json.load(open('vocab.json'))"
+      # Ensures vocab.json is valid JSON
+
+    - name: Lint Python Code
+      run: |
+        pip install flake8
+        flake8 model.py
+      # Checks for Python code style issues
+
+    - name: Run Unit Tests
+      run: |
+        pip install pytest
+        pytest tests/
+      # Ensure your tests are in a 'tests/' folder and properly set up
