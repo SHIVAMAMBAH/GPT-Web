@@ -35,7 +35,7 @@ class MultiHeadSelfAttention:
 
         # validate number of layers in the model (12 layers)
         n_layers = 12
-        if layer_number<0 or layer_number>=n_layers:
+        if layer_number< 0 or layer_number>= n_layers:
             raise ValueError(f"Layer number must be between 0 and {n_layers-1}")
 
         # Validate head number (12 in each MHSA)
@@ -329,7 +329,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_tenth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -353,7 +353,7 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
+            ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
             html.H3("first_layer_twefth_head", style={'textAlign': 'center'}),
             html.Div(
@@ -365,18 +365,18 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                 }
                 )
-            ],style={'width': '100%', 'display': 'inline-block'}),
-    ], style = {'width': '100%', 'display': 'inline-block','height':'500px','overflowY':'scroll','border': '2px solid #000000', }),
+            ], style={'width': '100%', 'display': 'inline-block'}),
+    ], style = {'width': '100%', 'display': 'inline-block','height': '500px','overflowY': 'scroll','border': '2px solid #000000', }),
 
     html.Div([
             html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
             html.Div(
                 id='final_context_vector_first_layer',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
-                    'font-family':'Courier New',
+                    'font-family': 'Courier New',
                     'overflowX': 'scroll'
                 }
                 )
