@@ -25,6 +25,15 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    
+    - name: Install autopep8
+      run: |
+        pip install autopep8
+      # Installs autopep8 for automatic code formatting
+
+    - name: Format Python Code with autopep8
+      run: |
+        autopep8 --in-place --aggressive --aggressive .
 
     - name: Validate Vocabulary File
       run: |
