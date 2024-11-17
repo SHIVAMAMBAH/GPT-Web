@@ -543,5 +543,5 @@ def update_output(input_text):
 # ,'\n'.join(final_context_vector_second_layer_output)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     app.run_server(debug = True)
