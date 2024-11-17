@@ -62,12 +62,16 @@ class MultiHeadSelfAttention:
         head_dim = d_model // n_heads
 
         # Reshape to split into Q, K, and V matrices for all heads
-        qkv_weight = c_attn_weight.view(3, n_heads, head_dim, d_model)  # Shape: (3, n_heads, head_dim, d_model)
+        # Shape: (3, n_heads, head_dim, d_model)
+        qkv_weight = c_attn_weight.view(3, n_heads, head_dim, d_model)
 
-        #  Extract weights for the specified attention head
-        q_weight = qkv_weight[0, self.head_number]  # Q weight for specified head
-        k_weight = qkv_weight[1, self.head_number]  # K weight for specified head
-        v_weight = qkv_weight[2, self.head_number]  # V weight for specified head
+        # Extract weights for the specified attention head
+        # Q weight for specified head
+        q_weight = qkv_weight[0, self.head_number]
+        # K weight for specified head
+        k_weight = qkv_weight[1, self.head_number]
+        # V weight for specified head
+        v_weight = qkv_weight[2, self.head_number]
 
         # Project embeddings into Q, K, and V matrices
         Q = torch.matmul(embeddings, q_weight.T)  # Shape: (batch_size, seq_length, head_dim)
@@ -80,7 +84,8 @@ class MultiHeadSelfAttention:
         K = K.unsqueeze(1)
 
         # Calculate attention scores (dot product of Q and K)
-        attention_scores = torch.matmul(Q, K.mT) / (head_dim ** 0.5)  # Use mT for transposition
+        # Use mT for transposition
+        attention_scores = torch.matmul(Q, K.mT) / (head_dim ** 0.5)
 
         # Apply softmax to get attention weights
         attention_weights = torch.softmax(attention_scores, dim=-1)
@@ -143,7 +148,8 @@ app.layout = html.Div([
     ),
     # Token ID Output Box
     html.Div([
-        html.H4('IDs', style={'textAlign': 'center'}),  # Centered Heading for ID
+        # Centered Heading for ID
+        html.H4('IDs', style={'textAlign': 'center'}),
         html.Div(
             id='id-output',
             style={
