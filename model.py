@@ -546,4 +546,4 @@ def update_output(input_text):
 
 
 if __name__ == "__main__":
-    app.run_server(debug = True)
+    app.run_server(debug=True)
