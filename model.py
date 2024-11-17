@@ -487,7 +487,7 @@ def update_output(input_text):
     first_layer_twelve_head_output = []
     
     
-    final_context_vector_first_layer = torch.cat((context_vector_11,context_vector_12,context_vector_13,context_vector_14,context_vector_15,context_vector_16,context_vector_17,context_vector_18,context_vector_19,context_vector_110,context_vector_111,context_vector_112),dim=-1)
+    final_context_vector_first_layer = torch.cat((context_vector_11, context_vector_12, context_vector_13, context_vector_14, context_vector_15, context_vector_16, context_vector_17, context_vector_18, context_vector_19, context_vector_110, context_vector_111, context_vector_112), dim=-1)
     final_context_vector_first_layer_output = []
     
     # context_vector_21 = layer_2_head_1.get_attention_values(sum_emb_pos)[last_index_context_vector]
