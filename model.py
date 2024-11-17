@@ -13,16 +13,16 @@ model = GPT2Model.from_pretrained(model_name)
 # In a real model, these would be learned parameters
 d_model = model.config.n_embd  # GPT-2 embedding size (768 for 'gpt2')
 
-
 # Function to get the embeddings and positional encodings for the input text
+
+
 def get_embeddings_and_positional_encodings(input_text):
     inputs = tokenizer(input_text, return_tensors='pt')
     with torch.no_grad():
         outputs = model(**inputs)
 
     # Extract token embeddings and positional encodings
-    # Token embeddings
-    embeddings = outputs.last_hidden_state
+    embeddings = outputs.last_hidden_state  # Token embeddings
     # Positional encodings
     positional_encodings = model.wpe.weight[:embeddings.size(1)]
 
@@ -31,24 +31,22 @@ def get_embeddings_and_positional_encodings(input_text):
 
 class MultiHeadSelfAttention:
     def __init__(self, layer_number: int, head_number: int):
-        # Using GPT-2 small directly
-        self.model = GPT2Model.from_pretrained("gpt2")
+        self.model = GPT2Model.from_pretrained(
+            "gpt2")  # Using GPT-2 small directly
         self.head_number = head_number
         self.layer_number = layer_number
 
-        # validate number of layers in the model(12 layers)
+        # validate number of layers in the model (12 layers)
         n_layers = 12
         if layer_number < 0 or layer_number >= n_layers:
             raise ValueError(
-                f"Layer number must be between 0 and {n_layers-1}"
-            )
+                f"Layer number must be between 0 and {n_layers-1}")
 
         # Validate head number (12 in each MHSA)
         n_heads = self.model.config.n_head
         if head_number < 0 or head_number >= n_heads:
             raise ValueError(
-                f"Head number must be between 0 and {n_heads - 1}"
-            )
+                f"Head number must be between 0 and {n_heads - 1}")
 
     def get_attention_values(self, embeddings: torch.Tensor):
         # Access the specified layer of the model
@@ -65,7 +63,7 @@ class MultiHeadSelfAttention:
         # Shape: (3, n_heads, head_dim, d_model)
         qkv_weight = c_attn_weight.view(3, n_heads, head_dim, d_model)
 
-        # Extract weights for the specified attention head
+        #   Extract weights for the specified attention head
         # Q weight for specified head
         q_weight = qkv_weight[0, self.head_number]
         # K weight for specified head
@@ -74,18 +72,18 @@ class MultiHeadSelfAttention:
         v_weight = qkv_weight[2, self.head_number]
 
         # Project embeddings into Q, K, and V matrices
-        Q = torch.matmul(embeddings, q_weight.T)  # Shape: (batch_size, seq_length, head_dim)
+        # Shape: (batch_size, seq_length, head_dim)
+        Q = torch.matmul(embeddings, q_weight.T)
         K = torch.matmul(embeddings, k_weight.T)
         V = torch.matmul(embeddings, v_weight.T)
 
         # Ensure Q and K have compatible shapes for matrix multiplication
-        # Add an extra dimension if needed
-        Q = Q.unsqueeze(1)
+        Q = Q.unsqueeze(1)  # Add an extra dimension if needed
         K = K.unsqueeze(1)
 
         # Calculate attention scores (dot product of Q and K)
-        # Use mT for transposition
-        attention_scores = torch.matmul(Q, K.mT) / (head_dim ** 0.5)
+        attention_scores = torch.matmul(
+            Q, K.mT) / (head_dim ** 0.5)  # Use mT for transposition
 
         # Apply softmax to get attention weights
         attention_weights = torch.softmax(attention_scores, dim=-1)
@@ -104,6 +102,7 @@ class MultiHeadSelfAttention:
             "attention_weights": attention_weights,
             "context_vector": context_vector
         }
+
 
 layer_1_head_1 = MultiHeadSelfAttention(0, 0)
 layer_1_head_2 = MultiHeadSelfAttention(0, 1)
@@ -137,7 +136,7 @@ app = Dash(__name__)
 app.layout = html.Div([
 
     html.Div([
-      html.H1("GPT-2 Small with 117M parameters and 12 attention heads.")  
+        html.H1("GPT-2 Small with 117M parameters and 12 attention heads.")
     ]),
 
     # Input Text Area
@@ -167,7 +166,11 @@ app.layout = html.Div([
     # Embedding and Positional Encoding Boxes Side by Side
     html.Div([
         html.Div([
-            html.H4('Embedding Matrix', style={'textAlign': 'center'}),  # Heading for Embedding Matrix
+            html.H4(
+                'Embedding Matrix',
+                style={
+                    'textAlign': 'center'}),
+            # Heading for Embedding Matrix
             html.Div(
                 id='embedding-output',
                 style={
@@ -178,12 +181,16 @@ app.layout = html.Div([
                     'height': '400px',  # Fixed height
                     'overflowY': 'scroll',  # Scrollable
                     'wordBreak': 'break-all',  # Word wrapping
-                    'font-family':'Courier New'
+                    'font-family': 'Courier New'
                 }
             )
         ], style={'width': '48%', 'display': 'inline-block', 'verticalAlign': 'top', 'marginRight': '4%'}),
         html.Div([
-            html.H4('Positional Encodings', style={'textAlign': 'center'}),  # Heading for Positional Encoding
+            html.H4(
+                'Positional Encodings',
+                style={
+                    'textAlign': 'center'}),
+            # Heading for Positional Encoding
             html.Div(
                 id='positional-encoding-output',
                 style={
@@ -201,7 +208,8 @@ app.layout = html.Div([
     ]),
     # Sum Box Below Embeddings and Positional Encodings
     html.Div([
-        html.H4('Sum of Embeddings and Positional Encodings', style={'textAlign': 'center'}),  # Heading for Sum Box
+        html.H4('Sum of Embeddings and Positional Encodings', style={
+                'textAlign': 'center'}),  # Heading for Sum Box
         html.Div(
             id='sum-output',
             style={
@@ -218,24 +226,26 @@ app.layout = html.Div([
         )
     ]),
 
-    html.Div([
-      html.H1("GPT-2 Encoder"),
-      html.H4("There are 12 layers of Encoder in GPT-2 small with 117 parameters. Each Layer consists of two parts : "),
-      html.H4("(i) Multi-Head Self-attention Mechanism (MHSA)"),
-      html.H4("(ii) Feed-Forward Neural Network (FFNN)"),
-      html.H4("There are 12 heads in the MHSA")
-
-    ], style = {'text-align': 'center'}),
 
     html.Div([
-      html.H1("Multi-Head Self-Attention Mechanism"),
-      html.H4("Below is the calculation of all heads of the first encoder layer of the first.")
+        html.H1("GPT-2 Encoder"),
+        html.H4("There are 12 layers of Encoder in GPT-2 small with 117 parameters. Each Layer consists of two parts : "),
+        html.H4("(i) Multi-Head Self-attention Mechanism (MHSA)"),
+        html.H4("(ii) Feed-Forward Neural Network (FFNN)"),
+        html.H4("There are 12 heads in the MHSA")
 
     ], style={'text-align': 'center'}),
 
     html.Div([
+        html.H1("Multi-Head Self-Attention Mechanism"),
+        html.H4(
+            "Below is the calculation of all heads of the first encoder layer of the first.")
+
+    ], style={'text-align': 'center'}),
+
     html.Div([
-        html.H3("first_layer_first_head", style={'textAlign': 'center'}),
+        html.Div([
+            html.H3("first_layer_first_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_first_head',
                 style={
@@ -245,10 +255,10 @@ app.layout = html.Div([
                     'font-family': 'Courier New',
                     'wordBreak': 'break-all',  # Word wrapping
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_second_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_second_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_second_head',
                 style={
@@ -257,11 +267,11 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
 
-    html.Div([
-        html.H3("first_layer_third_head", style={'textAlign': 'center'}),
+        html.Div([
+            html.H3("first_layer_third_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_third_head',
                 style={
@@ -270,10 +280,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_fourth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_fourth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_fourth_head',
                 style={
@@ -282,10 +292,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_fifth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_fifth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_fifth_head',
                 style={
@@ -294,10 +304,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_sixth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_sixth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_sixth_head',
                 style={
@@ -306,10 +316,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_seventh_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_seventh_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_seventh_head',
                 style={
@@ -318,10 +328,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_eighth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_eighth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_eighth_head',
                 style={
@@ -330,10 +340,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_ninth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_ninth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_ninth_head',
                 style={
@@ -342,10 +352,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_tenth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_tenth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_tenth_head',
                 style={
@@ -354,12 +364,12 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3(
-                "first_layer_eleventh_head", style={'textAlign': 'center'}
-            ),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3(
+                "first_layer_eleventh_head", style={
+                    'textAlign': 'center'}),
             html.Div(
                 id='first_layer_eleven_head',
                 style={
@@ -368,10 +378,10 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    html.Div([
-        html.H3("first_layer_twefth_head", style={'textAlign': 'center'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+        html.Div([
+            html.H3("first_layer_twefth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_twelve_head',
                 style={
@@ -380,37 +390,39 @@ app.layout = html.Div([
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
-    ], style={'width': '100%', 'display': 'inline-block', 'height': '500px', 'overflowY': 'scroll', 'border': '2px solid #000000'}),
+            )
+        ], style={'width': '100%', 'display': 'inline-block'}),
+    ], style={'width': '100%', 'display': 'inline-block', 'height': '500px', 'overflowY': 'scroll', 'border': '2px solid #000000', }),
 
     html.Div([
-        html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
-            html.Div(
-                id='final_context_vector_first_layer',
-                style={
-                    'border': '2px solid #000000',
-                    'height': '200px',
-                    'overflowY': 'scroll',
-                    'font-family': 'Courier New',
-                    'overflowX': 'scroll'
-                }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
+        html.H3("final_context_vector_first_layer",
+                style={'textAlign': 'center'}),
+        html.Div(
+            id='final_context_vector_first_layer',
+            style={
+                'border': '2px solid #000000',
+                'height': '200px',
+                'overflowY': 'scroll',
+                'font-family': 'Courier New',
+                'overflowX': 'scroll'
+            }
+        )
+    ], style={'width': '100%', 'display': 'inline-block'}),
 
     html.Div([
-        html.H3("final_context_vector_second_layer", style={'textAlign': 'center'}),
-            html.Div(
-                id='final_context_vector_second_layer',
-                style={
-                    'border': '2px solid #000000',
-                    'height': '200px',
-                    'overflowY': 'scroll',
-                    'font-family': 'Courier New',
-                    'overflowX': 'scroll'
-                }
-                )
-            ], style={'width': '100%', 'display': 'inline-block'}),
+        html.H3("final_context_vector_second_layer",
+                style={'textAlign': 'center'}),
+        html.Div(
+            id='final_context_vector_second_layer',
+            style={
+                'border': '2px solid #000000',
+                'height': '200px',
+                'overflowY': 'scroll',
+                'font-family': 'Courier New',
+                'overflowX': 'scroll'
+            }
+        )
+    ], style={'width': '100%', 'display': 'inline-block'}),
 ])
 
 
@@ -440,20 +452,25 @@ def update_output(input_text):
         return "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
 
     # Tokenize the input using the GPT-2 tokenizer
-    inputs = tokenizer(input_text, return_tensors='pt', add_special_tokens=False)
+    inputs = tokenizer(
+        input_text,
+        return_tensors='pt',
+        add_special_tokens=False)
     tokens = tokenizer.tokenize(input_text)
     token_ids = inputs['input_ids'][0].tolist()
 
     # Retrieve embeddings and positional encodings
-    embeddings, positional_encodings = get_embeddings_and_positional_encodings(input_text)
-    sum_emb_pos = embeddings+positional_encodings
+    embeddings, positional_encodings = get_embeddings_and_positional_encodings(
+        input_text)
+    sum_emb_pos = embeddings + positional_encodings
 
     id_output = []
     embedding_output = []
     positional_output = []
     sum_output = []
 
-    last_index_context_vector = list(layer_1_head_1.get_attention_values(sum_emb_pos).keys())[-1]
+    last_index_context_vector = list(
+        layer_1_head_1.get_attention_values(sum_emb_pos).keys())[-1]
 
     first_layer_first_head = layer_1_head_1.get_attention_values(sum_emb_pos)
     context_vector_11 = first_layer_first_head[last_index_context_vector]
@@ -503,7 +520,20 @@ def update_output(input_text):
     context_vector_112 = first_layer_twelve_head[last_index_context_vector]
     first_layer_twelve_head_output = []
 
-    final_context_vector_first_layer = torch.cat((context_vector_11, context_vector_12, context_vector_13, context_vector_14, context_vector_15, context_vector_16, context_vector_17, context_vector_18, context_vector_19, context_vector_110, context_vector_111, context_vector_112), dim=-1)
+    final_context_vector_first_layer = torch.cat(
+        (context_vector_11,
+         context_vector_12,
+         context_vector_13,
+         context_vector_14,
+         context_vector_15,
+         context_vector_16,
+         context_vector_17,
+         context_vector_18,
+         context_vector_19,
+         context_vector_110,
+         context_vector_111,
+         context_vector_112),
+        dim=-1)
     final_context_vector_first_layer_output = []
 
     # context_vector_21 = layer_2_head_1.get_attention_values(sum_emb_pos)[last_index_context_vector]
@@ -525,10 +555,13 @@ def update_output(input_text):
     # Display the token IDs, embeddings, positional encodings, and their sum
     for idx, (token, token_id) in enumerate(zip(tokens, token_ids)):
         id_output.append(f"{token} -> {token_id}")
-        embedding_output.append(f"{token}{embeddings[0, idx].detach().numpy().shape} = {embeddings[0, idx].detach().numpy()}")
-        positional_output.append(f"{token}{embeddings[0, idx].detach().numpy().shape} = {positional_encodings[idx].detach().numpy()}")
+        embedding_output.append(
+            f"{token}{embeddings[0, idx].detach().numpy().shape} = {embeddings[0, idx].detach().numpy()}")
+        positional_output.append(
+            f"{token}{embeddings[0, idx].detach().numpy().shape} = {positional_encodings[idx].detach().numpy()}")
         sum_result = embeddings[0, idx] + positional_encodings[idx]
-        sum_output.append(f"{token}{embeddings[0, idx].detach().numpy().shape} = {sum_result.detach().numpy()}")
+        sum_output.append(
+            f"{token}{embeddings[0, idx].detach().numpy().shape} = {sum_result.detach().numpy()}")
 
     first_layer_first_head_output.append(first_layer_first_head)
     first_layer_second_head_output.append(first_layer_second_head)
@@ -543,11 +576,13 @@ def update_output(input_text):
     first_layer_eleven_head_output.append(first_layer_eleven_head)
     first_layer_twelve_head_output.append(first_layer_twelve_head)
 
-    final_context_vector_first_layer_output.append(f"{final_context_vector_first_layer.shape}{str(final_context_vector_first_layer.detach().numpy())}")
+    final_context_vector_first_layer_output.append(
+        f"{final_context_vector_first_layer.shape}{str(final_context_vector_first_layer.detach().numpy())}")
 
     # final_context_vector_second_layer_output.append(f"{final_context_vector_second_layer.shape}{str(final_context_vector_second_layer.detach().numpy())}")
 
-    return '\n'.join(id_output), '\n'.join(embedding_output), '\n'.join(positional_output), '\n'.join(sum_output), '\n'.join(str(item) for item in first_layer_first_head_output), '\n'.join(str(item) for item in first_layer_second_head_output), '\n'.join(str(item) for item in first_layer_third_head_output), '\n'.join(str(item) for item in first_layer_fourth_head_output), '\n'.join(str(item) for item in first_layer_fifth_head_output), '\n'.join(str(item) for item in first_layer_sixth_head_output), '\n'.join(str(item) for item in first_layer_seventh_head_output), '\n'.join(str(item) for item in first_layer_eighth_head_output), '\n'.join(str(item) for item in first_layer_ninth_head_output), '\n'.join(str(item) for item in first_layer_tenth_head_output), '\n'.join(str(item) for item in first_layer_eleven_head_output), '\n'.join(str(item) for item in first_layer_twelve_head_output), '\n'.join(final_context_vector_first_layer_output)
+    return '\n'.join(id_output), '\n'.join(embedding_output), '\n'.join(positional_output), '\n'.join(sum_output), '\n'.join(str(item) for item in first_layer_first_head_output), '\n'.join(str(item) for item in first_layer_second_head_output), '\n'.join(str(item) for item in first_layer_third_head_output), '\n'.join(str(item) for item in first_layer_fourth_head_output), '\n'.join(str(item) for item in first_layer_fifth_head_output), '\n'.join(str(
+        item) for item in first_layer_sixth_head_output), '\n'.join(str(item) for item in first_layer_seventh_head_output), '\n'.join(str(item) for item in first_layer_eighth_head_output), '\n'.join(str(item) for item in first_layer_ninth_head_output), '\n'.join(str(item) for item in first_layer_tenth_head_output), '\n'.join(str(item) for item in first_layer_eleven_head_output), '\n'.join(str(item) for item in first_layer_twelve_head_output), '\n'.join(final_context_vector_first_layer_output)
 # ,'\n'.join(final_context_vector_second_layer_output)
 
 
