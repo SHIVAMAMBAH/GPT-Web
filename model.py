@@ -38,13 +38,17 @@ class MultiHeadSelfAttention:
 
         # validate number of layers in the model(12 layers)
         n_layers = 12
-        if layer_number< 0 or layer_number>= n_layers:
-            raise ValueError(f"Layer number must be between 0 and {n_layers-1}")
+        if layer_number < 0 or layer_number >= n_layers:
+            raise ValueError(
+                f"Layer number must be between 0 and {n_layers-1}"
+            )
 
         # Validate head number (12 in each MHSA)
         n_heads = self.model.config.n_head
         if head_number < 0 or head_number >= n_heads:
-            raise ValueError(f"Head number must be between 0 and {n_heads - 1}")
+            raise ValueError(
+                f"Head number must be between 0 and {n_heads - 1}"
+            )
 
     def get_attention_values(self, embeddings: torch.Tensor):
         # Access the specified layer of the model
