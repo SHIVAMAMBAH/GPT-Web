@@ -33,7 +33,7 @@ jobs:
 
     - name: Format Python Code with autopep8
       run: |
-        find . -name "*.py" -exec autopep8 --in-place --aggressive --aggressive {} \;
+        find . -name "*.py" -exec autopep8 --in-place --aggressive --aggressive --max-line-length 79 {} \;
     - name: Validate Vocabulary File
       run: |
         python -c "import json; json.load(open('vocab.json'))"
