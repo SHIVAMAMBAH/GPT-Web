@@ -220,7 +220,7 @@ app.layout = html.Div([
     html.Div([
       html.H1("Multi-Head Self-Attention Mechanism"),
       html.H4("Below is the calculation of all heads of the first encoder layer of the first.")
-  
+
     ], style = {'text-align': 'center'}),
 
     html.Div([
@@ -229,8 +229,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_first_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                     'wordBreak': 'break-all',  # Word wrapping
@@ -242,8 +242,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_second_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -255,8 +255,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_third_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -267,8 +267,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_fourth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -279,8 +279,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_fifth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -291,8 +291,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_sixth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -303,8 +303,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_seventh_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -315,8 +315,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_eighth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -327,8 +327,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_ninth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -339,8 +339,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_tenth_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -351,8 +351,8 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_eleven_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
@@ -363,14 +363,14 @@ app.layout = html.Div([
             html.Div(
                 id='first_layer_twelve_head',
                 style={
-                    'border': '2px solid #000000', 
-                    'height': '200px', 
+                    'border': '2px solid #000000',
+                    'height': '200px',
                     'overflowY': 'scroll',
                     'font-family': 'Courier New',
                 }
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
-    ], style = {'width': '100%', 'display': 'inline-block','height': '500px','overflowY': 'scroll','border': '2px solid #000000', }),
+    ], style = {'width': '100%', 'display': 'inline-block', 'height': '500px', 'overflowY': 'scroll', 'border': '2px solid #000000'}),
 
     html.Div([
             html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
