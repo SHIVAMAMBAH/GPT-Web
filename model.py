@@ -21,19 +21,22 @@ def get_embeddings_and_positional_encodings(input_text):
         outputs = model(**inputs)
 
     # Extract token embeddings and positional encodings
-    embeddings = outputs.last_hidden_state  # Token embeddings
-    positional_encodings = model.wpe.weight[:embeddings.size(1)]  # Positional encodings
+    # Token embeddings
+    embeddings = outputs.last_hidden_state
+    # Positional encodings
+    positional_encodings = model.wpe.weight[:embeddings.size(1)]
 
     return embeddings, positional_encodings
 
 
 class MultiHeadSelfAttention:
-    def __init__(self,layer_number: int, head_number: int):
-        self.model = GPT2Model.from_pretrained("gpt2")  # Using GPT-2 small directly
+    def __init__(self, layer_number: int, head_number: int):
+        # Using GPT-2 small directly
+        self.model = GPT2Model.from_pretrained("gpt2")
         self.head_number = head_number
         self.layer_number = layer_number
 
-        # validate number of layers in the model (12 layers)
+        # validate number of layers in the model(12 layers)
         n_layers = 12
         if layer_number< 0 or layer_number>= n_layers:
             raise ValueError(f"Layer number must be between 0 and {n_layers-1}")
@@ -68,7 +71,8 @@ class MultiHeadSelfAttention:
         V = torch.matmul(embeddings, v_weight.T)
 
         # Ensure Q and K have compatible shapes for matrix multiplication
-        Q = Q.unsqueeze(1)  # Add an extra dimension if needed
+        # Add an extra dimension if needed
+        Q = Q.unsqueeze(1)
         K = K.unsqueeze(1)
 
         # Calculate attention scores (dot product of Q and K)
@@ -146,7 +150,7 @@ app.layout = html.Div([
                 'height': '200px',  # Fixed height for ID output box
                 'overflowY': 'scroll',  # Scrollable
                 'marginBottom': 20,
-                'font-family':'Courier New'
+                'font-family': 'Courier New'
             }
         )
     ]),
