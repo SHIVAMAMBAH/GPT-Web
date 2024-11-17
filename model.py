@@ -225,11 +225,11 @@ app.layout = html.Div([
       html.H1("Multi-Head Self-Attention Mechanism"),
       html.H4("Below is the calculation of all heads of the first encoder layer of the first.")
 
-    ], style = {'text-align': 'center'}),
+    ], style={'text-align': 'center'}),
 
     html.Div([
     html.Div([
-            html.H3("first_layer_first_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_first_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_first_head',
                 style={
@@ -242,7 +242,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_second_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_second_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_second_head',
                 style={
@@ -255,7 +255,7 @@ app.layout = html.Div([
             ], style={'width': '100%', 'display': 'inline-block'}),
 
     html.Div([
-            html.H3("first_layer_third_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_third_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_third_head',
                 style={
@@ -267,7 +267,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_fourth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_fourth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_fourth_head',
                 style={
@@ -279,7 +279,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_fifth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_fifth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_fifth_head',
                 style={
@@ -291,7 +291,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_sixth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_sixth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_sixth_head',
                 style={
@@ -303,7 +303,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_seventh_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_seventh_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_seventh_head',
                 style={
@@ -315,7 +315,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_eighth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_eighth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_eighth_head',
                 style={
@@ -327,7 +327,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_ninth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_ninth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_ninth_head',
                 style={
@@ -339,7 +339,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_tenth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_tenth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_tenth_head',
                 style={
@@ -351,7 +351,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3(
+        html.H3(
                 "first_layer_eleventh_head", style={'textAlign': 'center'}
             ),
             html.Div(
@@ -365,7 +365,7 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_twefth_head", style={'textAlign': 'center'}),
+        html.H3("first_layer_twefth_head", style={'textAlign': 'center'}),
             html.Div(
                 id='first_layer_twelve_head',
                 style={
@@ -376,10 +376,10 @@ app.layout = html.Div([
                 }
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
-    ], style = {'width': '100%', 'display': 'inline-block', 'height': '500px', 'overflowY': 'scroll', 'border': '2px solid #000000'}),
+    ], style={'width': '100%', 'display': 'inline-block', 'height': '500px', 'overflowY': 'scroll', 'border': '2px solid #000000'}),
 
     html.Div([
-            html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
+        html.H3("final_context_vector_first_layer", style={'textAlign': 'center'}),
             html.Div(
                 id='final_context_vector_first_layer',
                 style={
@@ -393,7 +393,7 @@ app.layout = html.Div([
             ], style={'width': '100%', 'display': 'inline-block'}),
 
     html.Div([
-            html.H3("final_context_vector_second_layer", style={'textAlign': 'center'}),
+        html.H3("final_context_vector_second_layer", style={'textAlign': 'center'}),
             html.Div(
                 id='final_context_vector_second_layer',
                 style={
