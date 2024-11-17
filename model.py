@@ -1,4 +1,3 @@
-
 import torch
 from dash import Dash, dcc, html, Input, Output
 from transformers import GPT2Tokenizer, GPT2Model
