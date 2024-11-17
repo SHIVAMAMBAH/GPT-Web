@@ -351,7 +351,9 @@ app.layout = html.Div([
                 )
             ], style={'width': '100%', 'display': 'inline-block'}),
     html.Div([
-            html.H3("first_layer_eleventh_head", style={'textAlign': 'center'}),
+            html.H3(
+                "first_layer_eleventh_head", style={'textAlign': 'center'}
+            ),
             html.Div(
                 id='first_layer_eleven_head',
                 style={
