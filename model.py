@@ -2,8 +2,8 @@
 import torch
 from dash import Dash, dcc, html, Input, Output
 from transformers import GPT2Tokenizer, GPT2Model
-import torch.nn.functional as F
-import math
+# import torch.nn.functional as F
+# import math
 
 # Load the GPT-2 model and tokenizer
 model_name = 'gpt2'
@@ -13,6 +13,7 @@ model = GPT2Model.from_pretrained(model_name)
 
 # In a real model, these would be learned parameters
 d_model = model.config.n_embd  # GPT-2 embedding size (768 for 'gpt2')
+
 
 # Function to get the embeddings and positional encodings for the input text
 def get_embeddings_and_positional_encodings(input_text):
