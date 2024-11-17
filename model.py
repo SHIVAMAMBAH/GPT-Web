@@ -27,6 +27,7 @@ def get_embeddings_and_positional_encodings(input_text):
 
     return embeddings, positional_encodings
 
+
 class MultiHeadSelfAttention:
     def __init__(self,layer_number:int ,head_number: int):
         self.model = GPT2Model.from_pretrained("gpt2")  # Using GPT-2 small directly
