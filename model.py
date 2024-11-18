@@ -175,7 +175,8 @@ app.layout = html.Div([
                 id='embedding-output',
                 style={
                     'whiteSpace': 'pre-line',
-                    'border': '2px solid #000000',  # Green border for embedding output
+                     # Green border for embedding output
+                    'border': '2px solid #000000',
                     'padding': '10px',
                     'width': '100%',  # Full width inside container div
                     'height': '400px',  # Fixed height
