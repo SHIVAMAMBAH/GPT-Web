@@ -1,8 +1,6 @@
 import torch
 from dash import Dash, dcc, html, Input, Output
 from transformers import GPT2Tokenizer, GPT2Model
-# import torch.nn.functional as F
-# import math
 
 # Load the GPT-2 model and tokenizer
 model_name = 'gpt2'
