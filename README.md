@@ -68,7 +68,7 @@ sum_emb_pos = embeddings + positional_encodings
 - GPT-2 Small contains 12 encoder layers.
 - In each encoder layer there are **Multi-Head Self-Attention (MHSA) layer** and **Feed-Forward Neural-Network (FFNN) Layer**
 - In each MHSA, there are 12 heads.
-- So when we pass sum of embeddings and positional_encodings throught the encoder layers to the encoder, it will pass through the 12 heads of the MHSA of the first encoder layer.
+- So when we pass sum of embeddings and positional_encodings through the encoder layers to the encoder, it will pass through the 12 heads of the MHSA of the first encoder layer.
 - In each head, we calculate the *Query (Q)*, *Key (K)* and *Value (V)*, *attention_scores* and *attention_weights* and then *context_vector*
 - The following class calculates these values of a particular head of a particular layera and returns those values.
 ```
